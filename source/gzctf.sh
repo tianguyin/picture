@@ -93,7 +93,7 @@ services:
 EOL
 
 # 启动 Docker Compose 服务
-docker-compose -f compose.yml up -d
+docker-compose -f compose.yml up -d &
 
 # 输出部署状态
 echo "部署完成！"
