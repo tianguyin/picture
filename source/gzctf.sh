@@ -1,5 +1,6 @@
 #!/bin/bash
 
+apt update && apt install -y docker-compose
 # 配置初始化参数
 GZCTF_ADMIN_PASSWORD=$(openssl rand -base64 32)
 POSTGRES_PASSWORD=$(openssl rand -base64 32)
