@@ -5,13 +5,7 @@ apt update && apt install -y docker-compose
 GZCTF_ADMIN_PASSWORD=$(openssl rand -base64 32)
 POSTGRES_PASSWORD=$(openssl rand -base64 32)
 XOR_KEY=$(openssl rand -base64 32)
-PUBLIC_ENTRY="http://$(hostname -I | awk '{print $1}')"
-
-# 输出生成的随机参数
-echo "Generated GZCTF_ADMIN_PASSWORD: $GZCTF_ADMIN_PASSWORD"
-echo "Generated POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
-echo "Generated XOR_KEY: $XOR_KEY"
-echo "Generated PUBLIC_ENTRY: $PUBLIC_ENTRY"
+PUBLIC_ENTRY="$(curl ifconfig.me)"
 
 # 创建 appsettings.json 文件
 cat <<EOL > appsettings.json
@@ -91,10 +85,15 @@ services:
     volumes:
       - "./data/db:/var/lib/postgresql/data"
 EOL
-
-# 启动 Docker Compose 服务
-docker-compose -f compose.yml up -d &
-
 # 输出部署状态
 echo "部署完成！"
 echo "服务正在启动中..."
+# 启动 Docker Compose 服务
+docker-compose -f compose.yml up -d
+
+
+# 输出生成的随机参数
+echo "ADMIN密码 GZCTF_ADMIN_PASSWORD: $GZCTF_ADMIN_PASSWORD"
+echo "数据库密码 POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+echo "Generated XOR_KEY: $XOR_KEY"
+echo "访问地址: $PUBLIC_ENTRY"
